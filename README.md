@@ -6,7 +6,6 @@ The User Authentication API provides functionalities for user registration, logi
 
 1. User registraion
 - Endpoint: `POST /register`
-- Description: Handles registration for new users
 - Request Body:
     ```
     {
@@ -15,3 +14,17 @@ The User Authentication API provides functionalities for user registration, logi
         "password": String,
     }
     ```
+
+1. User login
+- Endpoint: `POST /login`
+- Request Body:
+    ```
+    {
+        "email": String,
+        "password": String
+    }
+    ```
+
+1. User logout
+- Endpoint: `POST /logout`
+- Request Body: `null`

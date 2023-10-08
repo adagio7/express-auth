@@ -2,6 +2,7 @@ import { hash, genSalt } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
 import { User } from '../models/User';
+import { createAccessToken, createRefreshToken, sendAccessToken, sendRefreshToken } from '../utils/jwtUtils';
 
 export const registerUser = async (req, res) => {
     try {
@@ -28,7 +29,32 @@ export const registerUser = async (req, res) => {
     }
 }
 
-export const loginUser = (req, res) => {
+export const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
+        const user = User.findOne({ email });
+        const isMatch = await compare(password, user.password)
+
+        if (!user || !isMatch){
+            return res.status(400).json({ message: 'Invalid Credentials' });
+        }
+
+        const accessToken = createAccessToken(user._id);
+        const refreshToken = createRefreshToken(user._id);
+
+        user.refreshToken = refreshToken;
+        await user.save();
+
+        sendAccessToken(req, res, accessToken);
+        sendRefreshToken(req, res, refreshToken);
+
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
 };
-export const logoutUser;
+export const logoutUser = async (req, res) => {
+    res.clearCookie('refreshToken');
+
+    return res.status(200).json({ message: 'Logged out successfully'});
+};

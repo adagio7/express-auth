@@ -1,7 +1,7 @@
 import { Schema, Model }  from 'mongoose';
 
 const userSchema = new Schema({
-  id: Number,
+  _id: Number,
   email: {
     type: String,
     required: true,
@@ -16,6 +16,7 @@ const userSchema = new Schema({
     type: String, 
     required: true
   },
+  refreshToken: String
 })
 
 export const User = Model('User', userSchema)
