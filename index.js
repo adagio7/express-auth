@@ -1,27 +1,23 @@
-const express = require('express');
+import express from "express";
+import mongoose from "mongoose";
+
+import 'dotenv/config';
+
+import userRoutes from "./routes/userRoutes.js";
+
+// require('dotenv').config();
+
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/register", (req, res) => {
-  const { username, email, password } = req.body;
-
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
-  // Create a new user record in the database
-  const user = {
-    username,
-    email,
-    password: hashedPassword
-  };
-
-  // Save the user record to the database (implementation depends on your chosen database library)
-
-  // Send a success response
-  res.status(201).json({ message: 'User registered successfully' });
-});
+app.get('/user', userRoutes);
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000.');
 });
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.log(err))

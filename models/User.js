@@ -1,9 +1,21 @@
-const UserFactory = (username, email, password) => {
-  return {
-    username,
-    email,
-    password,
-  };
-}
+import { Schema, Model }  from 'mongoose';
 
-export default UserFactory;
+const userSchema = new Schema({
+  id: Number,
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  userName: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String, 
+    required: true
+  },
+})
+
+export const User = Model('User', userSchema)
