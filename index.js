@@ -5,8 +5,6 @@ import 'dotenv/config';
 
 import userRoutes from "./routes/userRoutes.js";
 
-// require('dotenv').config();
-
 const app = express();
 
 app.use(express.json());
