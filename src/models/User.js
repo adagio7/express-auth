@@ -1,4 +1,4 @@
-import { Schema, Model }  from 'mongoose';
+import { Schema, model }  from 'mongoose';
 
 const userSchema = new Schema({
   _id: Number,
@@ -19,4 +19,4 @@ const userSchema = new Schema({
   refreshToken: String
 })
 
-export const User = Model('User', userSchema)
+export const User = model('User', userSchema)
